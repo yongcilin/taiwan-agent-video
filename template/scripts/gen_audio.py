@@ -16,6 +16,7 @@ import hashlib
 import json
 import math
 import os
+import re
 import sys
 
 try:
@@ -34,6 +35,9 @@ AUDIO_DIR = os.path.join(ROOT, "public", "audio")
 MANIFEST = os.path.join(ROOT, "src", "audio-manifest.json")
 
 TAIL_PADDING_SEC = 0.6  # 每段語音結束後多留一點呼吸空間
+
+# id 會直接當音檔檔名，限制為跨平台安全字元（Windows 保留字、特殊符號都擋掉）
+ID_RE = re.compile(r"^[A-Za-z0-9][A-Za-z0-9_-]*$")
 
 
 def sig(voice: str, text: str) -> str:
@@ -66,8 +70,14 @@ async def main() -> None:
     os.makedirs(AUDIO_DIR, exist_ok=True)
 
     manifest = {}
+    seen_ids = set()
     for scene in lesson["scenes"]:
         sid = scene["id"]
+        if not ID_RE.match(sid):
+            sys.exit(f"場景 id「{sid}」不合法：只能用英數、-、_，且以英數開頭（會當檔名）")
+        if sid in seen_ids:
+            sys.exit(f"場景 id「{sid}」重複，會互相覆寫音檔")
+        seen_ids.add(sid)
         text = (scene.get("narration") or "").strip()
         if not text:
             continue
@@ -76,11 +86,10 @@ async def main() -> None:
         mp3_path = os.path.join(AUDIO_DIR, f"{sid}.mp3")
         hash_path = os.path.join(AUDIO_DIR, f"{sid}.hash")
 
-        cached = (
-            os.path.exists(mp3_path)
-            and os.path.exists(hash_path)
-            and open(hash_path, encoding="utf-8").read().strip() == h
-        )
+        cached = False
+        if os.path.exists(mp3_path) and os.path.exists(hash_path):
+            with open(hash_path, encoding="utf-8") as hf:
+                cached = hf.read().strip() == h
         if cached:
             print(f"[快取] {sid}")
         else:

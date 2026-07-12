@@ -7,12 +7,17 @@ export const Caption: React.FC<{ text: string }> = ({ text }) => {
   const frame = useCurrentFrame();
   const { durationInFrames } = useVideoConfig();
 
-  const opacity = interpolate(
-    frame,
-    [4, 14, durationInFrames - 10, durationInFrames - 2],
-    [0, 1, 1, 0],
-    { extrapolateLeft: "clamp", extrapolateRight: "clamp" },
-  );
+  // 場景太短時（< 30 frames）淡入淡出的 input range 會非遞增而讓 interpolate 報錯，
+  // 直接恆顯示；一般長度才做進出場淡入淡出。
+  const opacity =
+    durationInFrames < 30
+      ? 1
+      : interpolate(
+          frame,
+          [4, 14, durationInFrames - 10, durationInFrames - 2],
+          [0, 1, 1, 0],
+          { extrapolateLeft: "clamp", extrapolateRight: "clamp" },
+        );
 
   if (!text) return null;
 

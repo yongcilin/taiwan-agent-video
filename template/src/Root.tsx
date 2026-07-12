@@ -6,10 +6,15 @@ import { TitleScene } from "./scenes/TitleScene";
 import { ImageScene } from "./scenes/ImageScene";
 import { StepCards } from "./scenes/StepCards";
 import { SummaryScene } from "./scenes/SummaryScene";
+import { VideoScene } from "./scenes/VideoScene";
 import { Caption } from "./scenes/Caption";
+import { validateLesson } from "./validate";
 
 const lesson = lessonData as Lesson;
 const manifest = audioManifest as AudioManifest;
+
+// 載入即驗證：資料錯誤直接讓 Studio / render 明確報錯，不要渲染出錯片。
+validateLesson(lesson);
 
 const renderScene = (scene: Scene) => {
   switch (scene.type) {
@@ -21,8 +26,10 @@ const renderScene = (scene: Scene) => {
       return <StepCards props={scene.props} />;
     case "summary":
       return <SummaryScene props={scene.props} />;
+    case "video":
+      return <VideoScene props={scene.props} />;
     default:
-      return <AbsoluteFill />;
+      throw new Error(`場景「${scene.id}」的 type「${scene.type}」未註冊`);
   }
 };
 

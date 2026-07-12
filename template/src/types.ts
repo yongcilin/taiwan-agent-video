@@ -1,6 +1,6 @@
 // lesson.json 的資料結構定義
 
-export type SceneType = "title" | "image" | "stepCards" | "summary";
+export type SceneType = "title" | "image" | "stepCards" | "summary" | "video";
 
 export interface StepItem {
   no: string;
@@ -20,6 +20,8 @@ export interface SceneProps {
   steps?: StepItem[];
   // summary
   text?: string;
+  // video（src、caption 與 image 共用）
+  videoDurationInSeconds?: number; // 素材實際長度（video 場景必填，validate.ts 會檢查）；旁白比素材長時據此循環播放
 }
 
 export interface Scene {
@@ -27,6 +29,7 @@ export interface Scene {
   type: SceneType;
   narration: string;
   durationInSeconds: number;
+  voice?: string; // 覆蓋 meta.voice，單場景換聲音（gen_audio.py 支援）
   props: SceneProps;
 }
 
