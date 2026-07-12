@@ -1,0 +1,19 @@
+{
+  "name": "taiwan-teaching-video",
+  "version": "0.1.0",
+  "private": true,
+  "description": "資料驅動的台灣用語教學影片範本（Remotion + Edge TTS + codex Image 2）",
+  "scripts": {
+    "audio": "python3 scripts/gen_audio.py",
+    "studio": "remotion studio src/index.ts",
+    "preview": "remotion render src/index.ts Lesson out/preview.mp4 --scale=0.667",
+    "render": "remotion render src/index.ts Lesson out/lesson.mp4"
+  },
+  "dependencies": {
+    "@remotion/cli": "^4.0.0",
+    "@remotion/google-fonts": "^4.0.0",
+    "remotion": "^4.0.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "title": {
+    "audio": "audio/title.mp3",
+    "durationInFrames": 137
+  },
+  "concept": {
+    "audio": "audio/concept.mp3",
+    "durationInFrames": 343
+  },
+  "steps": {
+    "audio": "audio/steps.mp3",
+    "durationInFrames": 289
+  },
+  "summary": {
+    "audio": "audio/summary.mp3",
+    "durationInFrames": 286
+  }
+}

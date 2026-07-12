@@ -1,0 +1,54 @@
+{
+  "meta": {
+    "title": "什麼是演算法？",
+    "voice": "zh-TW-HsiaoChenNeural",
+    "fps": 30,
+    "width": 1920,
+    "height": 1080
+  },
+  "scenes": [
+    {
+      "id": "title",
+      "type": "title",
+      "narration": "大家好，今天我們要學的是演算法。",
+      "durationInSeconds": 4,
+      "props": {
+        "title": "什麼是「演算法」？",
+        "subtitle": "國小資訊課 · 概念入門"
+      }
+    },
+    {
+      "id": "concept",
+      "type": "image",
+      "narration": "演算法聽起來很難，其實它就是解決問題的一套清楚步驟。就像機器人照著流程圖，一步一步把事情做完。",
+      "durationInSeconds": 7,
+      "props": {
+        "src": "images/robot.png",
+        "caption": "演算法就是「解決問題的步驟」"
+      }
+    },
+    {
+      "id": "steps",
+      "type": "stepCards",
+      "narration": "一個好的演算法有三個重點：先把問題看清楚，再想好步驟的順序，最後一步一步照著執行。",
+      "durationInSeconds": 9,
+      "props": {
+        "heading": "演算法的三個步驟",
+        "steps": [
+          { "no": "1", "text": "把問題看清楚", "color": "#4a90e2" },
+          { "no": "2", "text": "想好步驟順序", "color": "#7ed321" },
+          { "no": "3", "text": "一步一步執行", "color": "#f5a623" }
+        ]
+      }
+    },
+    {
+      "id": "summary",
+      "type": "summary",
+      "narration": "所以記得，演算法就是解決問題的清楚步驟。下次遇到問題，先想想它的步驟吧！",
+      "durationInSeconds": 5,
+      "props": {
+        "text": "演算法 ＝ 解決問題的清楚步驟"
+      }
+    }
+  ]
+}

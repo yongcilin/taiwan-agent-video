@@ -1,0 +1,14 @@
+node_modules/
+out/
+template/node_modules/
+template/out/
+# 產生物：語音與 audio-manifest 為衍生檔，重跑 gen_audio.py 即可再生
+template/public/audio/*.mp3
+template/public/audio/*.hash
+# 生成的插圖預設不入庫（可自行取消忽略）；範例圖除外見下
+template/public/images/*
+!template/public/images/.gitkeep
+!template/public/images/robot.png
+.DS_Store
+*.log
+.ttsvenv/
