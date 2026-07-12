@@ -1,7 +1,7 @@
-# taiwan-teaching-video
+# taiwan-agent-video
 
-用 AI 自動化製作**台灣用語**教學／講解影片的範本與 Claude Code skill。
-專為國小資訊課這類「講解型」影片設計：投影片動畫、情境插圖、台灣口音旁白，一句 prompt 產出 1080p MP4。
+用 AI agent 自動化製作**台灣用語**短片的範本與 Claude Code skill。
+**教學／講解影片、宣傳片、活動預告、公告、成果回顧、社群短片**都行——投影片動畫、情境插圖、台灣口音旁白，一句 prompt 產出 1080p MP4。差別只在 `lesson.json` 的內容，引擎相同。
 
 跨平台：**macOS / Windows / Linux** 皆可。
 
@@ -21,13 +21,13 @@
 ## 安裝
 
 ```bash
-git clone https://github.com/yongcilin/taiwan-teaching-video.git
-cd taiwan-teaching-video/template
+git clone https://github.com/yongcilin/taiwan-agent-video.git
+cd taiwan-agent-video/template
 npm install
 pip install -r scripts/requirements.txt   # edge-tts, mutagen
 ```
 
-把 skill 交給 Claude Code：把 `skill/taiwan-teaching-video/` 複製到你的 `~/.claude/skills/`。
+把 skill 交給 Claude Code：把 `skill/taiwan-agent-video/` 複製到你的 `~/.claude/skills/`。
 
 前置：本機要有 `codex` CLI（生圖用）、Node 18+、Python 3.8+。
 
@@ -48,7 +48,7 @@ npm run studio        # 開 Remotion Studio 邊改邊看
 
 ### 交給 Claude Code（推薦）
 裝好 skill 後，直接說：
-> 用 taiwan-teaching-video 幫我做一支講「什麼是迴圈」的資訊課影片
+> 用 taiwan-agent-video 幫我做一支講「什麼是迴圈」的資訊課影片
 
 agent 會照 skill 流程：寫 lesson.json → 台灣用語 QA → codex 生圖 → Edge TTS 配音 → 渲染。
 

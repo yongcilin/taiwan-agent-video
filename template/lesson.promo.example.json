@@ -1,0 +1,45 @@
+{
+  "_comment": "宣傳片範例：示範同一套引擎也能做「活動宣傳」。要用它渲染，把內容複製到 lesson.json，或改 src/Root.tsx 的 import 來源。",
+  "meta": {
+    "title": "校園程式設計社招生",
+    "voice": "zh-TW-YunJheNeural",
+    "fps": 30,
+    "width": 1920,
+    "height": 1080
+  },
+  "scenes": [
+    {
+      "id": "title",
+      "type": "title",
+      "narration": "嘿，想不想動手打造屬於自己的作品？",
+      "durationInSeconds": 4,
+      "props": {
+        "title": "程式設計社 · 開始招生",
+        "subtitle": "不用經驗，帶你從零做出第一個作品"
+      }
+    },
+    {
+      "id": "why",
+      "type": "stepCards",
+      "narration": "在這裡，你會學到三件帶得走的能力：把想法變成程式、和隊友一起解決問題、還有把作品秀給大家看。",
+      "durationInSeconds": 9,
+      "props": {
+        "heading": "你會帶走什麼",
+        "steps": [
+          { "no": "1", "text": "把想法變成程式", "color": "#4a90e2" },
+          { "no": "2", "text": "團隊一起解題", "color": "#7ed321" },
+          { "no": "3", "text": "上台秀出作品", "color": "#f5a623" }
+        ]
+      }
+    },
+    {
+      "id": "cta",
+      "type": "summary",
+      "narration": "名額有限，掃描海報上的表單就能報名。我們社辦見！",
+      "durationInSeconds": 5,
+      "props": {
+        "text": "每週三放學 · 電腦教室\n掃 QR 立即報名"
+      }
+    }
+  ]
+}

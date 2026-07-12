@@ -1,14 +1,15 @@
 ---
-name: taiwan-teaching-video
+name: taiwan-agent-video
 description: >-
-  用資料驅動流程製作「台灣用語」教學/講解影片（國小資訊課等）。當使用者說「做教學影片」「用
-  Remotion 做影片」「把這個主題做成影片」「taiwan-teaching-video」時觸發。以 lesson.json 為核心，
-  codex Image 2 生圖、Remotion 排版動畫、Edge TTS 台灣語音配旁白，輸出 1080p MP4。
+  用資料驅動流程製作「台灣用語」短片——教學/講解、宣傳、活動預告、公告、成果回顧等皆可。當使用者說
+  「做影片」「做教學影片」「做宣傳片」「用 Remotion 做影片」「把這個主題做成影片」「taiwan-agent-video」
+  時觸發。以 lesson.json 為核心，codex Image 2 生圖、Remotion 排版動畫、Edge TTS 台灣語音配旁白，輸出 1080p MP4。
 ---
 
-# 台灣用語教學影片製作 skill
+# 台灣用語短片製作 skill（taiwan-agent-video）
 
-這個 skill 幫使用者把一個教學主題，變成一支有動畫、插圖、台灣口音旁白的教學影片。
+這個 skill 幫使用者把一個主題，變成一支有動畫、插圖、台灣口音旁白的短片。
+教學/講解影片是最常見的用途，但**宣傳片、活動預告、班級/學校公告、成果回顧、社群短片**用的是同一套流程，只差 lesson.json 的內容。
 **核心原則：資料驅動**——你（agent）只需要產出 `lesson.json` 資料，不要每次重寫 Remotion 程式碼。
 固定的元件庫會讀 JSON 自動渲染。
 

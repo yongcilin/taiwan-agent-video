@@ -1,8 +1,8 @@
 {
-  "name": "taiwan-teaching-video",
+  "name": "taiwan-agent-video",
   "version": "0.1.0",
   "private": true,
-  "description": "資料驅動的台灣用語教學影片範本（Remotion + Edge TTS + codex Image 2）",
+  "description": "資料驅動的台灣用語短片範本（教學、宣傳等）— Remotion + Edge TTS + codex Image 2",
   "scripts": {
     "audio": "python3 scripts/gen_audio.py",
     "studio": "remotion studio src/index.ts",
