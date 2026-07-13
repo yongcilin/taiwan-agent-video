@@ -12,7 +12,7 @@ export interface SceneProps {
   // title
   title?: string;
   subtitle?: string;
-  // image
+  // image（src 也可用於 title/summary 場景：當滿版背景圖，可選）
   src?: string;
   caption?: string;
   // stepCards

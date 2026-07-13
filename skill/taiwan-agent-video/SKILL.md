@@ -23,6 +23,7 @@ description: >-
 - Python 3.8+，且已安裝 `edge-tts`、`mutagen`（`pip install -r scripts/requirements.txt`）
   - Windows 上 `python3` 可能不存在，改用 `py -3` 或 `python`
 - 生圖需要本機有 codex CLI（`codex` 指令）且 `image_generation` feature 為啟用
+  - 指定較新模型時若報「requires a newer version of Codex」，先 `npm install -g @openai/codex@latest` 升級再試
 - 要用 `video` 場景時需要 ffmpeg／ffprobe（`ffmpeg -version` 確認）
 - 專案相依：在 `template/` 底下跑過 `npm install`
 
@@ -32,11 +33,12 @@ description: >-
 
 ### 1. 寫腳本 → 產生 lesson.json
 - 依主題規劃 4～8 個場景，每個場景挑一個 `type`：
-  - `title`：開場標題卡
-  - `image`：情境插圖 + 一句說明（配 codex Image 2 生的圖）
-  - `stepCards`：2～4 個步驟/重點卡片，依序滑入
-  - `summary`：結尾金句
+  - `title`：開場標題卡（可選 `props.src` 滿版背景圖，會自動暗化壓字＋緩慢推進）
+  - `image`：情境插圖 + 一句說明（滿版 cover + Ken Burns 慢速縮放位移，方向依圖片自動錯開）
+  - `stepCards`：2～4 個步驟/重點卡片，依序彈跳滑入（鮮豔漸層背景）
+  - `summary`：結尾金句（可選 `props.src` 滿版背景圖，暗化＋緩慢拉遠；`text` 支援 `\n` 換行）
   - `video`：實拍／AI 生成影片片段 + 一句說明（靜音播放，旁白照常由 TTS 提供）
+- 宣傳片建議：開場與結尾共用同一張「場景全景圖」當背景，頭尾呼應、動態感最好。
 - 每個場景寫：`narration`（旁白，口語、面向學生）、`durationInSeconds`（粗估，實際會被語音長度覆蓋）、`props`。
 - 參考 `template/lesson.json` 的格式。
 
@@ -46,12 +48,21 @@ description: >-
 - 標點全形、面向國小：句子短、多比喻、少專有名詞。
 
 ### 3. 生插圖（image 類場景）
-- 對每個 `image` 場景，用 codex 生圖：
+- 用 codex 生圖，**風格依使用者需求指定**（類皮克斯 3D、扁平向量、水彩⋯；使用者沒說就先問或預設扁平向量風）：
   ```
-  codex exec --skip-git-repo-check --ephemeral "用內建生圖工具（gpt-image-2）產生：<畫面描述>，扁平向量風、明亮、白底、不要文字。生成後只回報圖片路徑，不要複製檔案。"
+  codex exec --skip-git-repo-check --ephemeral "用內建生圖工具（gpt-image-2）產生一張 1536x1024 橫式插圖：<畫面描述>，<風格描述>。畫面中不要出現任何文字。生成後只回報圖片完整路徑，不要複製檔案。"
   ```
-- codex 會把圖存到 `~/.codex/generated_images/<session>/call_*.png`（唯讀沙盒會擋複製，屬正常）。
+- **背景執行必須關 stdin**（Windows/PowerShell：`$null | codex exec ...`；bash：`codex exec ... < /dev/null`），
+  否則 codex 停在「Reading additional input from stdin...」空轉直到逾時。
+- **人物連貫鐵則**：多張圖有相同角色時，**必須用同一個 codex session 依序生成**，
+  並在提示詞中明確要求「把前一張成品當參考圖輸入、角色外觀（髮型/服裝/書包顏色）與前張完全一致」；
+  各自獨立的 session 看不到彼此的產出，角色必然飄移。無角色連貫需求的圖（如純場景全景）拆到並行 session 跑比較快。
+- **實景對齊**：要貼近真實場地（校園、店面、活動現場）時，先讓 codex 用 `view_image` 看實拍照片再生圖，
+  並在提示詞裡點名照片中的具體特徵（建築顏色、柱廊、招牌、地磚⋯），還原度會大幅提升。
+  gpt-image-2 繁中少字幾乎全對，招牌/匾額上的短文字可以直接要求正確寫出。
+- codex 會把圖存到 `~/.codex/generated_images/<session>/call_*.png` 或 `exec-*.png`（唯讀沙盒會擋複製，屬正常）。
 - 你手動把該檔複製到 `template/public/images/<sceneId>.png`，並在 lesson.json 的 `props.src` 填 `images/<sceneId>.png`。
+- **複製後自己 Read 每張圖檢查**：風格、有無多餘文字、角色一致性，不合格就讓 codex 重生該張。
 - 沒有 codex 時的後援：可用 Pollinations 免費 API（`https://image.pollinations.ai/prompt/<prompt>?width=1280&height=720&model=flux&nologo=true`）下載成 png。
 
 ### 3b. 影片素材（video 類場景）
@@ -87,9 +98,16 @@ npm run render    # 1080p 正式母版 → out/lesson.mp4
 ```
 - 想邊改邊看：`npm run studio` 開 Remotion Studio。
 
+### 6. 交付前抽格 QA（必做）
+- 渲染完不要只看檔案有生出來，用 ffmpeg 抽 2～4 個關鍵時間點的畫格自己 Read 檢查：
+  ```bash
+  ffmpeg -v error -ss <秒數> -i out/lesson.mp4 -frames:v 1 -y check.png
+  ```
+- 檢查重點：插圖有正確入片、字幕/標語沒有重疊出框、版面符合預期。抓到問題成本遠低於使用者看完回來反映。
+
 ## 產出
 - `template/out/lesson.mp4`（正式 1080p）
-- 把成品交給使用者。
+- 把成品**複製到使用者的專案資料夾**交付（連同該支影片的 lesson.json 備份，方便日後改版重渲）。
 
 ## 要新增場景型別時
 - 才需要動程式碼：在 `template/src/scenes/` 新增元件、在 `types.ts` 加型別、在 `Root.tsx` 的 `renderScene` 註冊。
