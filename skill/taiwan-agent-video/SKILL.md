@@ -39,6 +39,10 @@ description: >-
   - `summary`：結尾金句（可選 `props.src` 滿版背景圖，暗化＋緩慢拉遠；`text` 支援 `\n` 換行）
   - `video`：實拍／AI 生成影片片段 + 一句說明（靜音播放，旁白照常由 TTS 提供）
 - 宣傳片建議：開場與結尾共用同一張「場景全景圖」當背景，頭尾呼應、動態感最好。
+- 背景音樂：`meta.bgm` 填相對 public 的路徑（如 `music/bgm.mp3`），`meta.bgmVolume` 預設 0.12；
+  全片循環、頭尾自動淡入淡出。曲庫可用 incompetech（Kevin MacLeod，CC-BY 需附致謝文字，
+  直接下載 `https://incompetech.com/music/royalty-free/mp3-royaltyfree/<曲名>.mp3`），交付時附授權說明。
+- 底部字幕會自動把旁白依標點斷成 ≤20 字的短句、按字數比例輪播，單一子句不要寫超過 30 字，避免單行爆版。
 - 每個場景寫：`narration`（旁白，口語、面向學生）、`durationInSeconds`（粗估，實際會被語音長度覆蓋）、`props`。
 - 參考 `template/lesson.json` 的格式。
 
@@ -47,7 +51,20 @@ description: >-
   （視頻→影片、算法→演算法、代碼→程式碼、默認→預設…）。
 - 標點全形、面向國小：句子短、多比喻、少專有名詞。
 
-### 3. 生插圖（image 類場景）
+### 3. 圖片素材（image 類場景）
+
+**成果回顧／活動紀錄片優先用使用者的實拍照片，不要生圖**——真實照片比 AI 圖有說服力，
+生圖留給沒有素材的教學/宣傳主題。照片流程：
+
+- 照片多時先做**縮圖總表**再挑，不要一張張 Read（省 context）：用 Pillow 把每個資料夾拼成
+  一張含檔名標籤的 contact sheet，一次看完整資料夾（Windows 通常沒有 ImageMagick，`montage` 不可用）。
+- 挑圖標準：清晰、構圖好、主體置中。**直式照片會被滿版 cover 裁掉上下**，要挑主體在中央的。
+- 複製到 `template/public/images/` 時**改用 ASCII 檔名**（如 `a-title.jpg`），避免中文路徑在
+  Remotion/staticFile 出問題；一支影片一個前綴（`a-`、`b-`）方便多支共存。
+- 開場 `title` 與結尾 `summary` 都吃 `props.src` 背景圖，挑兩張最有氣氛的寬景照頭尾呼應。
+- 純資訊點（重點條列）穿插一個 `stepCards` 場景增加節奏變化，卡片 2～4 張（4 張會自動縮小避開字幕）。
+
+**沒有實拍素材才走 codex 生圖**：
 - 用 codex 生圖，**風格依使用者需求指定**（類皮克斯 3D、扁平向量、水彩⋯；使用者沒說就先問或預設扁平向量風）：
   ```
   codex exec --skip-git-repo-check --ephemeral "用內建生圖工具（gpt-image-2）產生一張 1536x1024 橫式插圖：<畫面描述>，<風格描述>。畫面中不要出現任何文字。生成後只回報圖片完整路徑，不要複製檔案。"
@@ -89,6 +106,8 @@ cd template && python3 scripts/gen_audio.py
 - 之後每個場景的長度會自動用「實際語音長度」，不再靠估的秒數。
 - **只要改過 lesson.json 的旁白就必須重跑這步**（有雜湊快取，沒改的場景不會重合成），
   否則會沿用舊語音與舊時間軸，渲染出內容對不上的影片。
+- **一次做多支影片（多份 lesson 檔輪流 cp 成 lesson.json）時，每次切換後都要重跑**，
+  否則 manifest 還是上一支的場景 id，新影片會整支沒旁白（只剩配樂/靜音）。
 
 ### 5. 渲染
 ```
@@ -99,15 +118,27 @@ npm run render    # 1080p 正式母版 → out/lesson.mp4
 - 想邊改邊看：`npm run studio` 開 Remotion Studio。
 
 ### 6. 交付前抽格 QA（必做）
-- 渲染完不要只看檔案有生出來，用 ffmpeg 抽 2～4 個關鍵時間點的畫格自己 Read 檢查：
+- 渲染完不要只看檔案有生出來，用 ffmpeg 抽畫格自己 Read 檢查：
   ```bash
   ffmpeg -v error -ss <秒數> -i out/lesson.mp4 -frames:v 1 -y check.png
   ```
+- **抽格要覆蓋到每一個場景**（用 audio-manifest 的 durationInFrames 累加算出各場景時間點，
+  或均勻多抽幾格），只抽 2～4 格容易漏掉中間某個場景的問題。
+- 多格用 Pillow 拼成一張總表再 Read，一次看完、省 context。
 - 檢查重點：插圖有正確入片、字幕/標語沒有重疊出框、版面符合預期。抓到問題成本遠低於使用者看完回來反映。
+- **聲音也要驗**：抽一小段量音量，確認旁白真的在（沒旁白＝忘了重跑 gen_audio 的典型症狀）：
+  ```bash
+  ffmpeg -ss 2 -t 1.5 -i out/lesson.mp4 -af volumedetect -f null - 2>&1 | grep mean_volume
+  # 有旁白約 -20 dB 上下；只剩配樂/靜音會掉到 -40 dB 以下
+  ```
 
 ## 產出
 - `template/out/lesson.mp4`（正式 1080p）
 - 把成品**複製到使用者的專案資料夾**交付（連同該支影片的 lesson.json 備份，方便日後改版重渲）。
+- 多支影片：lesson 檔取名 `lesson_A.json`、`lesson_B.json`⋯保留在 template/，
+  輪流 `cp lesson_X.json lesson.json → gen_audio.py → render → 複製成品改名`；
+  成品檔名用影片標題，交付資料夾同時放對應的 lesson_X.json。
+- 有用配樂時，交付資料夾附一份配樂授權說明（曲名、作者、授權條款、需要的致謝文字）。
 
 ## 要新增場景型別時
 - 才需要動程式碼：在 `template/src/scenes/` 新增元件、在 `types.ts` 加型別、在 `Root.tsx` 的 `renderScene` 註冊。
