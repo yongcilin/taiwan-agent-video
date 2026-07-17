@@ -1,0 +1,89 @@
+{
+  "meta": {
+    "title": "課室英語教師社群研習及教學活動",
+    "voice": "zh-TW-HsiaoChenNeural",
+    "bgm": "music/bgm-carefree.mp3",
+    "bgmVolume": 0.12,
+    "fps": 30,
+    "width": 1920,
+    "height": 1080
+  },
+  "scenes": [
+    {
+      "id": "a-title",
+      "type": "title",
+      "narration": "為提升教師在課堂中運用英語的能力，本校透過教師專業社群，持續辦理課室英語增能研習與教學交流。",
+      "durationInSeconds": 9,
+      "props": {
+        "title": "課室英語教師社群研習及教學活動",
+        "subtitle": "雙語教育推動成果",
+        "src": "images/a-title.jpg"
+      }
+    },
+    {
+      "id": "a-workshop",
+      "type": "image",
+      "narration": "社群研習中，教師共同學習實用的課室英語，並透過示範、練習與經驗分享，提升實際運用英語的信心。",
+      "durationInSeconds": 9,
+      "props": {
+        "src": "images/a-workshop.jpg",
+        "caption": "課室英語增能研習"
+      }
+    },
+    {
+      "id": "a-terms",
+      "type": "stepCards",
+      "narration": "研習內容涵蓋課堂問候、教學指令、鼓勵回饋，以及班級經營用語，讓英語真正走進每一堂課。",
+      "durationInSeconds": 9,
+      "props": {
+        "heading": "社群共學的課室英語",
+        "steps": [
+          { "no": "1", "text": "課堂問候", "color": "#4a90e2" },
+          { "no": "2", "text": "教學指令", "color": "#7ed321" },
+          { "no": "3", "text": "鼓勵回饋", "color": "#f5a623" },
+          { "no": "4", "text": "班級經營", "color": "#e94e77" }
+        ]
+      }
+    },
+    {
+      "id": "a-meeting",
+      "type": "image",
+      "narration": "透過持續的社群共備與定期交流，老師們一起討論教學設計，累積課室英語的實踐經驗。",
+      "durationInSeconds": 8,
+      "props": {
+        "src": "images/a-meeting.jpg",
+        "caption": "社群共備．教學交流"
+      }
+    },
+    {
+      "id": "a-teaching",
+      "type": "image",
+      "narration": "在教學現場，教師依據學生的年齡與學習程度，將簡單、生活化的英語自然融入課程。",
+      "durationInSeconds": 8,
+      "props": {
+        "src": "images/a-teaching.jpg",
+        "caption": "每週一句．生活英語"
+      }
+    },
+    {
+      "id": "a-stage",
+      "type": "image",
+      "narration": "搭配肢體動作、圖片及情境活動，幫助學生理解課堂內容，快樂開口說英語。",
+      "durationInSeconds": 8,
+      "props": {
+        "src": "images/a-stage.jpg",
+        "caption": "英語日活動"
+      }
+    },
+    {
+      "id": "a-summary",
+      "type": "summary",
+      "narration": "讓英語不只是學習的科目，更成為師生課堂互動的一部分，營造自然、友善且充滿樂趣的英語學習環境。",
+      "durationInSeconds": 9,
+      "props": {
+        "text": "教師共學．課堂實踐\n讓英語自然融入每一天的學習",
+        "src": "images/a-summary.jpg"
+      }
+    }
+  ]
+}

@@ -18,7 +18,11 @@ const BG_DOTS = Array.from({ length: 10 }, (_, i) => ({
   phase: (i * 113) % 360,
 }));
 
-const Card: React.FC<{ index: number; item: StepItem }> = ({ index, item }) => {
+const Card: React.FC<{ index: number; item: StepItem; compact: boolean }> = ({
+  index,
+  item,
+  compact,
+}) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
   const delay = 8 + index * 11;
@@ -45,15 +49,15 @@ const Card: React.FC<{ index: number; item: StepItem }> = ({ index, item }) => {
         boxSizing: "border-box",
         background: "rgba(255,255,255,0.96)",
         borderRadius: 26,
-        padding: "30px 44px",
+        padding: compact ? "20px 40px" : "30px 44px",
         boxShadow: "0 16px 44px rgba(10,30,70,0.32)",
         borderLeft: `16px solid ${item.color}`,
       }}
     >
       <div
         style={{
-          width: 84,
-          height: 84,
+          width: compact ? 72 : 84,
+          height: compact ? 72 : 84,
           borderRadius: "50%",
           background: item.color,
           color: "white",
@@ -71,7 +75,7 @@ const Card: React.FC<{ index: number; item: StepItem }> = ({ index, item }) => {
       </div>
       <div
         style={{
-          fontSize: 54,
+          fontSize: compact ? 48 : 54,
           fontWeight: 700,
           color: "#1c2f4a",
           whiteSpace: "nowrap",
@@ -87,6 +91,8 @@ export const StepCards: React.FC<{ props: SceneProps }> = ({ props }) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
   const steps = props.steps ?? [];
+  // 4 張以上卡片時整體縮小，避免最下方卡片被底部字幕遮住
+  const compact = steps.length >= 4;
 
   const sceneFade = interpolate(frame, [0, 8], [0, 1], {
     extrapolateRight: "clamp",
@@ -130,7 +136,7 @@ export const StepCards: React.FC<{ props: SceneProps }> = ({ props }) => {
           style={{
             transform: `translateY(${headY}px)`,
             opacity: headOpacity,
-            marginBottom: 52,
+            marginBottom: compact ? 36 : 52,
             textAlign: "center",
           }}
         >
@@ -160,12 +166,13 @@ export const StepCards: React.FC<{ props: SceneProps }> = ({ props }) => {
         style={{
           display: "flex",
           flexDirection: "column",
-          gap: 34,
+          gap: compact ? 22 : 34,
           width: 980,
+          paddingBottom: compact ? 120 : 0,
         }}
       >
         {steps.map((s, i) => (
-          <Card key={s.no} index={i} item={s} />
+          <Card key={s.no} index={i} item={s} compact={compact} />
         ))}
       </div>
     </AbsoluteFill>

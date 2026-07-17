@@ -1,18 +1,34 @@
 {
-  "title": {
-    "audio": "audio/title.mp3",
-    "durationInFrames": 137
+  "b-title": {
+    "audio": "audio/b-title.mp3",
+    "durationInFrames": 346
   },
-  "concept": {
-    "audio": "audio/concept.mp3",
-    "durationInFrames": 343
+  "b-sharing": {
+    "audio": "audio/b-sharing.mp3",
+    "durationInFrames": 337
   },
-  "steps": {
-    "audio": "audio/steps.mp3",
-    "durationInFrames": 289
+  "b-halloween1": {
+    "audio": "audio/b-halloween1.mp3",
+    "durationInFrames": 306
   },
-  "summary": {
-    "audio": "audio/summary.mp3",
-    "durationInFrames": 286
+  "b-halloween2": {
+    "audio": "audio/b-halloween2.mp3",
+    "durationInFrames": 336
+  },
+  "b-intl1": {
+    "audio": "audio/b-intl1.mp3",
+    "durationInFrames": 293
+  },
+  "b-intl2": {
+    "audio": "audio/b-intl2.mp3",
+    "durationInFrames": 265
+  },
+  "b-postcards": {
+    "audio": "audio/b-postcards.mp3",
+    "durationInFrames": 253
+  },
+  "b-summary": {
+    "audio": "audio/b-summary.mp3",
+    "durationInFrames": 435
   }
 }

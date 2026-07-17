@@ -1,0 +1,94 @@
+{
+  "meta": {
+    "title": "雙語教學社群研習及教學活動",
+    "voice": "zh-TW-HsiaoChenNeural",
+    "bgm": "music/bgm-carefree.mp3",
+    "bgmVolume": 0.12,
+    "fps": 30,
+    "width": 1920,
+    "height": 1080
+  },
+  "scenes": [
+    {
+      "id": "b-title",
+      "type": "title",
+      "narration": "為推動雙語教育，提升教師雙語教學專業能力，本校成立雙語教學教師社群，持續發展適合學生的雙語教學模式。",
+      "durationInSeconds": 9,
+      "props": {
+        "title": "雙語教學社群研習及教學活動",
+        "subtitle": "雙語教育推動成果",
+        "src": "images/b-title.jpg"
+      }
+    },
+    {
+      "id": "b-sharing",
+      "type": "image",
+      "narration": "社群透過共同備課、專業研習及教學經驗分享，包括海外進修教師的實地見聞，讓雙語教學的視野更加開闊。",
+      "durationInSeconds": 9,
+      "props": {
+        "src": "images/b-sharing.jpg",
+        "caption": "雙語教學專業研習"
+      }
+    },
+    {
+      "id": "b-halloween1",
+      "type": "image",
+      "narration": "社群教師依據學科內容與學生學習需求，共同設計雙語教學活動，結合節慶主題引發學習興趣。",
+      "durationInSeconds": 8,
+      "props": {
+        "src": "images/b-halloween1.jpg",
+        "caption": "節慶主題雙語活動"
+      }
+    },
+    {
+      "id": "b-halloween2",
+      "type": "image",
+      "narration": "課堂中運用圖片、實物、肢體動作及多元學習任務，讓學生在理解學科知識的同時，自然接觸並使用英語。",
+      "durationInSeconds": 9,
+      "props": {
+        "src": "images/b-halloween2.jpg",
+        "caption": "多元學習任務"
+      }
+    },
+    {
+      "id": "b-intl1",
+      "type": "image",
+      "narration": "教師以中文協助理解、以英語創造使用機會，透過循序漸進的教學方式，降低學生的學習壓力。",
+      "durationInSeconds": 8,
+      "props": {
+        "src": "images/b-intl1.jpg",
+        "caption": "中英並用的雙語課堂"
+      }
+    },
+    {
+      "id": "b-intl2",
+      "type": "image",
+      "narration": "學生更透過視訊與國外學校即時交流，提升課堂參與度，也更願意開口用英語表達。",
+      "durationInSeconds": 8,
+      "props": {
+        "src": "images/b-intl2.jpg",
+        "caption": "跨國視訊交流課程"
+      }
+    },
+    {
+      "id": "b-postcards",
+      "type": "image",
+      "narration": "孩子們還與馬來西亞的學生交換明信片，用英語交朋友，拓展國際溝通的視野。",
+      "durationInSeconds": 8,
+      "props": {
+        "src": "images/b-postcards.jpg",
+        "caption": "跨國明信片交流"
+      }
+    },
+    {
+      "id": "b-summary",
+      "type": "summary",
+      "narration": "透過教師專業社群的合作與實踐，逐步建構具校本特色的雙語教學模式，讓學生在豐富、多元的學習情境中，培養學科能力，也拓展國際溝通的視野。",
+      "durationInSeconds": 10,
+      "props": {
+        "text": "專業共備．雙語實踐\n讓語言成為探索世界的橋梁",
+        "src": "images/b-summary.jpg"
+      }
+    }
+  ]
+}

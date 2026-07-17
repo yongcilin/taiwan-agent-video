@@ -1,4 +1,12 @@
-import { Composition, Series, AbsoluteFill, Audio, staticFile } from "remotion";
+import {
+  Composition,
+  Series,
+  AbsoluteFill,
+  Audio,
+  staticFile,
+  interpolate,
+  useVideoConfig,
+} from "remotion";
 import lessonData from "../lesson.json";
 import audioManifest from "./audio-manifest.json";
 import type { Lesson, Scene, AudioManifest } from "./types";
@@ -40,10 +48,34 @@ const sceneDuration = (scene: Scene, fps: number): number => {
   return Math.round(scene.durationInSeconds * fps);
 };
 
+// 背景音樂：全片低音量循環，開頭淡入、結尾淡出，不蓋過旁白。
+const Bgm: React.FC = () => {
+  const { durationInFrames, fps } = useVideoConfig();
+  const { bgm, bgmVolume } = lesson.meta;
+  if (!bgm) return null;
+  const base = bgmVolume ?? 0.12;
+  return (
+    <Audio
+      src={staticFile(bgm)}
+      loop
+      volume={(f) =>
+        base *
+        interpolate(
+          f,
+          [0, fps, durationInFrames - 2 * fps, durationInFrames - 1],
+          [0, 1, 1, 0],
+          { extrapolateLeft: "clamp", extrapolateRight: "clamp" },
+        )
+      }
+    />
+  );
+};
+
 const LessonVideo: React.FC = () => {
   const { fps } = lesson.meta;
   return (
     <AbsoluteFill style={{ backgroundColor: "white" }}>
+      <Bgm />
       <Series>
         {lesson.scenes.map((scene) => {
           const audio = manifest[scene.id]?.audio;

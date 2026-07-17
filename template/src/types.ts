@@ -39,6 +39,8 @@ export interface LessonMeta {
   fps: number;
   width: number;
   height: number;
+  bgm?: string; // 相對 public 的背景音樂路徑，如 music/bgm.mp3；不足全片長度會循環
+  bgmVolume?: number; // 背景音樂音量 0～1，預設 0.12（旁白為主）
 }
 
 export interface Lesson {
